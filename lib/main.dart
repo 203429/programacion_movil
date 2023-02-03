@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-// import 'package:my_first_app/pages/login.dart';
 import 'package:my_first_app/screens/body_boarding.dart';
 
 void main() {

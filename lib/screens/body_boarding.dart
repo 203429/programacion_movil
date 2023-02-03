@@ -26,9 +26,8 @@ class _BodyBoardingState extends State<BodyBoarding>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text("Actividad 26/01/2023")),
-      body: const OnBoarding(),
+    return const Scaffold(
+      body: OnBoarding(),
     );
   }
 }
