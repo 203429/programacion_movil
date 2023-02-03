@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_first_app/screens/components/content_boarding.dart';
+import 'package:my_first_app/screens/splash_view.dart';
 
 class OnBoarding extends StatefulWidget {
   const OnBoarding({super.key});
@@ -73,7 +74,13 @@ class _OnBoardingState extends State<OnBoarding> {
                       duration: kThemeAnimationDuration,
                       curve: Curves.ease,
                     )
-                  : (null);
+                  : {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const SplashView(),
+                          ))
+                    };
             },
             style: OutlinedButton.styleFrom(
               backgroundColor: currentPage == listBoarding.length - 1
