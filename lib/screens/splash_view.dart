@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:my_first_app/pages/register.dart';
 
 class SplashView extends StatefulWidget {
   const SplashView({super.key});
@@ -88,7 +89,12 @@ class _SplashViewState extends State<SplashView> {
                       color: Color(0xff65686e),
                     ),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const Register()),
+                    );
+                  },
                   label: const Text(
                     'Registrarse con e-mail',
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),

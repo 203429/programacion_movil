@@ -1,15 +1,34 @@
 import 'package:flutter/material.dart';
 
-class Register extends StatelessWidget {
+class Register extends StatefulWidget {
   const Register({super.key});
 
   @override
+  State<Register> createState() => _RegisterState();
+}
+
+class _RegisterState extends State<Register> {
+  bool _isChecked = false;
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Actividad Register")),
+      appBar: AppBar(
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            const Text("Regístrate"),
+            Image.asset(
+              "assets/images/mini_logo.png",
+              width: 70,
+              height: 70,
+            ),
+          ],
+        ),
+        backgroundColor: const Color(0xff48197c),
+      ),
       body: Center(
         child: Padding(
-          padding: const EdgeInsets.only(left: 20, right: 20),
+          padding: const EdgeInsets.only(left: 25, right: 25),
           child: LayoutBuilder(
             builder:
                 (BuildContext context, BoxConstraints viewportConstraints) {
@@ -19,93 +38,152 @@ class Register extends StatelessWidget {
                     minHeight: viewportConstraints.maxHeight,
                   ),
                   child: Padding(
-                    padding: const EdgeInsets.only(top: 50),
+                    padding: const EdgeInsets.only(top: 30),
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const TextField(
+                        const Padding(
+                          padding: EdgeInsets.only(bottom: 30),
+                          child: Text(
+                            "Crea una cuenta para empezar a usar la app",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                              color: Color.fromARGB(255, 113, 113, 113),
+                            ),
+                          ),
+                        ),
+                        const Padding(
+                          padding: EdgeInsets.only(bottom: 5),
+                          child: Text(
+                            "Nombre",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 16),
+                          ),
+                        ),
+                        TextField(
                           decoration: InputDecoration(
-                            hintText: ('Last Name'),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(18),
+                            ),
+                            hintText: ('Nombre completo'),
                           ),
                         ),
                         const Padding(
-                          padding: EdgeInsets.only(top: 20),
-                          child: TextField(
-                            decoration: InputDecoration(
-                              hintText: ('First Name'),
+                          padding: EdgeInsets.only(top: 30, bottom: 5),
+                          child: Text(
+                            "Correo eletrónico",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 16),
+                          ),
+                        ),
+                        TextField(
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(18),
                             ),
+                            hintText: ('Dirección de correo'),
                           ),
                         ),
                         const Padding(
-                          padding: EdgeInsets.only(top: 20),
-                          child: TextField(
-                            decoration: InputDecoration(
-                              hintText: ('Username'),
+                          padding: EdgeInsets.only(top: 30, bottom: 5),
+                          child: Text(
+                            "Contraseña",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 16),
+                          ),
+                        ),
+                        TextField(
+                          obscureText: true,
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(18),
                             ),
+                            hintText: ('Contraseña'),
                           ),
                         ),
                         const Padding(
-                          padding: EdgeInsets.only(top: 20),
-                          child: TextField(
-                            decoration: InputDecoration(
-                              hintText: ('Password'),
-                            ),
+                          padding: EdgeInsets.all(15),
+                          child: Text(
+                            "La contraseña debe contener caracteres, números y símbolos con un mínimo de 6 caracteres.",
+                            style: TextStyle(fontSize: 12, color: Colors.grey),
                           ),
                         ),
-                        const Padding(
-                          padding: EdgeInsets.only(top: 20),
-                          child: TextField(
-                            decoration: InputDecoration(
-                              hintText: ('Confirm Password'),
+                        Row(
+                          children: [
+                            Checkbox(
+                              value: _isChecked,
+                              onChanged: (value) {
+                                setState(() {
+                                  _isChecked = value!;
+                                });
+                              },
                             ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 20),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: const [
-                              SizedBox(
-                                width: 150,
-                                child: Padding(
-                                  padding: EdgeInsets.only(top: 20),
-                                  child: TextField(
-                                    decoration: InputDecoration(
-                                      hintText: ('Year'),
-                                    ),
-                                  ),
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.70,
+                              child: RichText(
+                                text: TextSpan(
+                                  text: "Al registrarme, acepto los ",
+                                  style: DefaultTextStyle.of(context).style,
+                                  children: const <TextSpan>[
+                                    TextSpan(
+                                        text: "términos y condiciones",
+                                        style: TextStyle(color: Color(0xffe73f6a))),
+                                    TextSpan(
+                                        text: " y la "),
+                                    TextSpan(
+                                        text: "política de privacidad.",
+                                        style: TextStyle(color: Color(0xffe73f6a))),
+                                  ],
                                 ),
                               ),
-                              SizedBox(
-                                width: 150,
-                                child: Padding(
-                                  padding: EdgeInsets.only(top: 20),
-                                  child: TextField(
-                                    decoration: InputDecoration(
-                                      hintText: ('Gender'),
-                                    ),
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                        OutlinedButton(
-                          style: ButtonStyle(
-                            foregroundColor:
-                                MaterialStateProperty.all<Color>(Colors.grey),
-                          ),
-                          onPressed: () {},
-                          child: const Text('Register'),
+                            ),
+                          ],
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(top: 20),
-                          child: OutlinedButton(
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                            child: const Text('Already have an account'),
+                          padding: const EdgeInsets.only(top: 30),
+                          child: SizedBox(
+                            width: double.infinity,
+                            height: 45,
+                            child: OutlinedButton(
+                              style: OutlinedButton.styleFrom(
+                                backgroundColor: Colors.green,
+                                shape: (RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(25),
+                                )),
+                                side: const BorderSide(
+                                  width: 2,
+                                  color: Colors.green,
+                                ),
+                              ),
+                              child: const Text(
+                                "Crear Cuenta",
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              onPressed: () {},
+                            ),
                           ),
                         ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            const Text("¿Ya tienes una cuenta?"),
+                            TextButton(
+                              onPressed: () {},
+                              child: const Text(
+                                'Iniciar Sesión',
+                                style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                    color: Color(0xffe73f6a)),
+                              ),
+                            ),
+                          ],
+                        )
                       ],
                     ),
                   ),
