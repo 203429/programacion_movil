@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_first_app/pages/login.dart';
 
 class Register extends StatefulWidget {
   const Register({super.key});
@@ -173,7 +174,13 @@ class _RegisterState extends State<Register> {
                           children: <Widget>[
                             const Text("¿Ya tienes una cuenta?"),
                             TextButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const Login()),
+                                );
+                              },
                               child: const Text(
                                 'Iniciar Sesión',
                                 style: TextStyle(

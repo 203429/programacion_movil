@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:my_first_app/pages/login.dart';
 import 'package:my_first_app/pages/register.dart';
 
 class SplashView extends StatefulWidget {
@@ -126,7 +127,13 @@ class _SplashViewState extends State<SplashView> {
                 children: <Widget>[
                   const Text("¿Ya tienes una cuenta?"),
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const Login()),
+                      );
+                    },
                     child: const Text(
                       'Iniciar Sesión',
                       style: TextStyle(
