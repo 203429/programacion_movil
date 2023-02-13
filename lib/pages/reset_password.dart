@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:my_first_app/pages/reset_password.dart';
 
-class RecoverPass extends StatefulWidget {
-  const RecoverPass({super.key});
+class ResetPassword extends StatefulWidget {
+  const ResetPassword({super.key});
 
   @override
-  State<RecoverPass> createState() => _RecoverPassState();
+  State<ResetPassword> createState() => _ResetPasswordState();
 }
 
-class _RecoverPassState extends State<RecoverPass> {
+class _ResetPasswordState extends State<ResetPassword> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,7 +44,7 @@ class _RecoverPassState extends State<RecoverPass> {
                         const Padding(
                           padding: EdgeInsets.only(bottom: 20),
                           child: Text(
-                            "Ingresa tu email para restablecer tu contraseña",
+                            "Por seguridad, tu contraseña debe contener una longitud de entre 8 y 15 caracteres,usar mayúsculas, minúsculas, contener por lo menos un número especial y un carácter especial.",
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 16,
@@ -56,28 +55,39 @@ class _RecoverPassState extends State<RecoverPass> {
                         const Padding(
                           padding: EdgeInsets.only(top: 30, bottom: 5),
                           child: Text(
-                            "Correo eletrónico",
+                            "Nueva contraseña",
                             style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 16),
                           ),
                         ),
                         TextField(
+                          obscureText: true,
                           decoration: InputDecoration(
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(18),
                             ),
-                            hintText: ('Dirección de correo'),
+                            hintText: ('Nueva contraseña'),
                           ),
                         ),
                         const Padding(
-                          padding: EdgeInsets.all(15),
+                          padding: EdgeInsets.only(top: 30, bottom: 5),
                           child: Text(
-                            "Ingrese su correo eletrónico registrado y le enviaremos un correo electrónico que contiene un enlace para restablecer su contraseña.",
-                            style: TextStyle(fontSize: 12, color: Colors.grey),
+                            "Confirmar nueva contraseña",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 16),
+                          ),
+                        ),
+                        TextField(
+                          obscureText: true,
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(18),
+                            ),
+                            hintText: ('Confirmar nueva contraseña'),
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(top: 40),
+                          padding: const EdgeInsets.only(top: 50),
                           child: SizedBox(
                             width: double.infinity,
                             height: 45,
@@ -93,20 +103,14 @@ class _RecoverPassState extends State<RecoverPass> {
                                 ),
                               ),
                               child: const Text(
-                                "Enviar Solicitud",
+                                "Actualizar contraseña",
                                 style: TextStyle(
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold,
                                   color: Colors.white,
                                 ),
                               ),
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => const ResetPassword()),
-                                );
-                              },
+                              onPressed: () {},
                             ),
                           ),
                         ),
