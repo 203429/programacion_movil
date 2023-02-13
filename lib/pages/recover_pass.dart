@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:my_first_app/pages/recover_pass.dart';
-import 'package:my_first_app/pages/register.dart';
 
-class Login extends StatelessWidget {
-  const Login({super.key});
+class RecoverPass extends StatefulWidget {
+  const RecoverPass({super.key});
 
+  @override
+  State<RecoverPass> createState() => _RecoverPassState();
+}
+
+class _RecoverPassState extends State<RecoverPass> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -12,7 +15,7 @@ class Login extends StatelessWidget {
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const Text("Iniciar Sesión"),
+            const Text("Recuperar contraseña"),
             Image.asset(
               "assets/images/mini_logo.png",
               width: 70,
@@ -39,9 +42,9 @@ class Login extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const Padding(
-                          padding: EdgeInsets.only(bottom: 10),
+                          padding: EdgeInsets.only(bottom: 20),
                           child: Text(
-                            "Inicia sesión para empezar a usar la app",
+                            "Ingresa tu email para restablecer tu contraseña",
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 16,
@@ -66,45 +69,14 @@ class Login extends StatelessWidget {
                           ),
                         ),
                         const Padding(
-                          padding: EdgeInsets.only(top: 30, bottom: 5),
+                          padding: EdgeInsets.all(15),
                           child: Text(
-                            "Contraseña",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 16),
+                            "Ingrese su correo eletrónico registrado y le enviaremos un correo electrónico que contiene un enlace para restablecer su contraseña.",
+                            style: TextStyle(fontSize: 12, color: Colors.grey),
                           ),
-                        ),
-                        TextField(
-                          obscureText: true,
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(18),
-                            ),
-                            hintText: ('Contraseña'),
-                          ),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            TextButton(
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => const RecoverPass()),
-                                );
-                              },
-                              child: const Text(
-                                'Recuperar contraseña',
-                                style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.grey),
-                              ),
-                            ),
-                          ],
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(top: 10),
+                          padding: const EdgeInsets.only(top: 40),
                           child: SizedBox(
                             width: double.infinity,
                             height: 45,
@@ -120,7 +92,7 @@ class Login extends StatelessWidget {
                                 ),
                               ),
                               child: const Text(
-                                "Ingresar",
+                                "Enviar Solicitud",
                                 style: TextStyle(
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold,
@@ -130,28 +102,6 @@ class Login extends StatelessWidget {
                               onPressed: () {},
                             ),
                           ),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const Text("¿No tienes una cuenta?"),
-                            TextButton(
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => const Register()),
-                                );
-                              },
-                              child: const Text(
-                                'Regístrate',
-                                style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                    color: Color(0xffe73f6a)),
-                              ),
-                            ),
-                          ],
                         ),
                       ],
                     ),
