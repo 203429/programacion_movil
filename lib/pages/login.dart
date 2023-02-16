@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:my_first_app/pages/recover_pass.dart';
-import 'package:my_first_app/pages/register.dart';
 
 class Login extends StatelessWidget {
   const Login({super.key});
@@ -87,11 +85,7 @@ class Login extends StatelessWidget {
                           children: [
                             TextButton(
                               onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => const RecoverPass()),
-                                );
+                                Navigator.pushNamed(context, '/recover_pass');
                               },
                               child: const Text(
                                 'Recuperar contraseña',
@@ -137,11 +131,7 @@ class Login extends StatelessWidget {
                             const Text("¿No tienes una cuenta?"),
                             TextButton(
                               onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => const Register()),
-                                );
+                                Navigator.pushNamed(context, '/register');
                               },
                               child: const Text(
                                 'Regístrate',

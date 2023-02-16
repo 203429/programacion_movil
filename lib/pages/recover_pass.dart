@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:my_first_app/pages/reset_password.dart';
 
 class RecoverPass extends StatefulWidget {
   const RecoverPass({super.key});
@@ -101,11 +100,7 @@ class _RecoverPassState extends State<RecoverPass> {
                                 ),
                               ),
                               onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => const ResetPassword()),
-                                );
+                                Navigator.pushNamed(context, '/reset_pass');
                               },
                             ),
                           ),

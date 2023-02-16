@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:my_first_app/pages/login.dart';
-import 'package:my_first_app/pages/register.dart';
 
 class SplashView extends StatefulWidget {
   const SplashView({super.key});
@@ -50,7 +48,7 @@ class _SplashViewState extends State<SplashView> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(bottom: 15),
+                padding: const EdgeInsets.only(bottom: 35),
                 child: OutlinedButton.icon(
                   icon: const FaIcon(
                     FontAwesomeIcons.facebook,
@@ -91,10 +89,7 @@ class _SplashViewState extends State<SplashView> {
                     ),
                   ),
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const Register()),
-                    );
+                    Navigator.pushNamed(context, '/register');
                   },
                   label: const Text(
                     'Registrarse con e-mail',
@@ -128,11 +123,7 @@ class _SplashViewState extends State<SplashView> {
                   const Text("¿Ya tienes una cuenta?"),
                   TextButton(
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const Login()),
-                      );
+                      Navigator.pushNamed(context, '/login');
                     },
                     child: const Text(
                       'Iniciar Sesión',
