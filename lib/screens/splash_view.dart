@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:my_first_app/screens/welcome_user.dart';
 
 class SplashView extends StatefulWidget {
   const SplashView({super.key});
@@ -9,6 +13,32 @@ class SplashView extends StatefulWidget {
 }
 
 class _SplashViewState extends State<SplashView> {
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
+  late FirebaseAuth _auth;
+
+  bool isUserSignedIn = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    initApp();
+  }
+
+  void initApp() async {
+    FirebaseApp defaultApp = await Firebase.initializeApp();
+    _auth = FirebaseAuth.instanceFor(app: defaultApp);
+    checkIfUserIsSignedIn();
+  }
+
+  void checkIfUserIsSignedIn() async {
+    var userSignedIn = await _googleSignIn.isSignedIn();
+
+    setState(() {
+      isUserSignedIn = userSignedIn;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,7 +70,7 @@ class _SplashViewState extends State<SplashView> {
                       borderRadius: BorderRadius.circular(25),
                     )),
                   ),
-                  onPressed: () {},
+                  onPressed: () {onGoogleSignIn(context);},
                   label: const Text(
                     'Continuar con Google',
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
@@ -140,5 +170,49 @@ class _SplashViewState extends State<SplashView> {
         ),
       ),
     );
+  }
+
+  Future<User?> _handleSignIn() async {
+    User? user;
+    bool userSignedIn = await _googleSignIn.isSignedIn();
+
+    setState(() {
+      isUserSignedIn = userSignedIn;
+    });
+
+    if (isUserSignedIn) {
+      user = _auth.currentUser;
+    } else {
+      final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
+      final GoogleSignInAuthentication? googleAuth =
+          await googleUser?.authentication;
+
+      final AuthCredential credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth?.accessToken,
+        idToken: googleAuth?.idToken,
+      );
+
+      user = (await _auth.signInWithCredential(credential)).user;
+      userSignedIn = await _googleSignIn.isSignedIn();
+      setState(() {
+        isUserSignedIn = userSignedIn;
+      });
+    }
+
+    return user;
+  }
+
+  void onGoogleSignIn(BuildContext context) async {
+    User? user = await _handleSignIn();
+    // ignore: use_build_context_synchronously
+    var userSignedIn = await Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) => WelcomeUserWidget(user!, _googleSignIn)),
+    );
+
+    setState(() {
+      isUserSignedIn = userSignedIn == null ? true : false;
+    });
   }
 }
