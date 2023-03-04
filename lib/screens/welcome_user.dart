@@ -1,15 +1,20 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 // ignore: must_be_immutable
 class WelcomeUserWidget extends StatelessWidget {
-  late GoogleSignIn _googleSignIn;
+  GoogleSignIn? _googleSignIn;
   late User _user;
 
   WelcomeUserWidget(User user, GoogleSignIn signIn, {super.key}) {
     _user = user;
     _googleSignIn = signIn;
+  }
+
+  WelcomeUserWidget.withOneValue(User? user, {super.key}) {
+    _user = user!;
   }
 
   @override
@@ -45,26 +50,26 @@ class WelcomeUserWidget extends StatelessWidget {
                             fontWeight: FontWeight.bold, fontSize: 20)),
                     const SizedBox(height: 20),
                     OutlinedButton(
-                      onPressed: () {
-                        _googleSignIn.signOut();
+                      onPressed: () {_googleSignIn != null ?
+                        _googleSignIn?.signOut() : FacebookAuth.instance.logOut();
                         Navigator.pop(context, false);
                       },
                       style: TextButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        backgroundColor: Colors.redAccent
-                      ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          backgroundColor: Colors.redAccent),
                       child: Padding(
                           padding: const EdgeInsets.all(10),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.center,
-                            children: const <Widget>[
-                              Icon(Icons.exit_to_app, color: Colors.white),
-                              SizedBox(width: 10),
-                              Text('Log out of Google',
-                                  style: TextStyle(color: Colors.white))
+                            children: <Widget>[
+                              const Icon(Icons.exit_to_app, color: Colors.white),
+                              const SizedBox(width: 10),
+                              Text(_googleSignIn != null ?
+                                'Log out of Google' : 'Log out of Facebook',
+                                  style: const TextStyle(color: Colors.white))
                             ],
                           )),
                     ),

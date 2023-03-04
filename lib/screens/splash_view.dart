@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -17,6 +18,7 @@ class _SplashViewState extends State<SplashView> {
   late FirebaseAuth _auth;
 
   bool isUserSignedIn = false;
+  bool isUserSignedInFacebook = false;
 
   @override
   void initState() {
@@ -33,9 +35,15 @@ class _SplashViewState extends State<SplashView> {
 
   void checkIfUserIsSignedIn() async {
     var userSignedIn = await _googleSignIn.isSignedIn();
+    AccessToken? accessToken = await FacebookAuth.instance.accessToken;
 
     setState(() {
       isUserSignedIn = userSignedIn;
+      if (accessToken != null) {
+        isUserSignedInFacebook = true;
+      } else {
+        isUserSignedInFacebook = false;
+      }
     });
   }
 
@@ -70,10 +78,12 @@ class _SplashViewState extends State<SplashView> {
                       borderRadius: BorderRadius.circular(25),
                     )),
                   ),
-                  onPressed: () {onGoogleSignIn(context);},
-                  label: const Text(
-                    'Continuar con Google',
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                  onPressed: () {
+                    onGoogleSignIn(context);
+                  },
+                  label: Text(isUserSignedIn ? 'Continuar con Google' :
+                    'Acceder con Google',
+                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                   ),
                 ),
               ),
@@ -92,10 +102,12 @@ class _SplashViewState extends State<SplashView> {
                       borderRadius: BorderRadius.circular(25),
                     )),
                   ),
-                  onPressed: () {},
-                  label: const Text(
-                    'Continuar con Facebook',
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                  onPressed: () {
+                    signInWithFacebook(context);
+                  },
+                  label: Text(isUserSignedInFacebook ? 'Continuar con Facebook' :
+                    'Acceder con Facebook',
+                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                   ),
                 ),
               ),
@@ -213,6 +225,60 @@ class _SplashViewState extends State<SplashView> {
 
     setState(() {
       isUserSignedIn = userSignedIn == null ? true : false;
+    });
+  }
+
+  Future<User?> _handleSignInFacebook() async {
+    User? user;
+    final AccessToken? accessToken = await FacebookAuth.instance.accessToken;
+
+    setState(() {
+      if (accessToken != null) {
+        isUserSignedInFacebook = true;
+      } else {
+        isUserSignedInFacebook = false;
+      }
+    });
+
+    if (isUserSignedInFacebook) {
+      final userData = await FacebookAuth.instance.getUserData();
+      final AuthCredential credential = FacebookAuthProvider.credential(
+        accessToken!.token,
+      );
+      final UserCredential userCredential =
+          await FirebaseAuth.instance.signInWithCredential(credential);
+
+      user = userCredential.user;
+    } else {
+      final LoginResult loginResult = await FacebookAuth.instance
+          .login();
+      if (loginResult.status == LoginStatus.success) {
+        final AccessToken accessToken = loginResult.accessToken!;
+        final userData = await FacebookAuth.instance.getUserData();
+
+        final AuthCredential credential = FacebookAuthProvider.credential(
+          accessToken.token,
+        );
+
+        final UserCredential userCredential =
+            await FirebaseAuth.instance.signInWithCredential(credential);
+
+        user = userCredential.user;
+      }
+    }
+    return user;
+  }
+
+  void signInWithFacebook(BuildContext context) async {
+    User? user = await _handleSignInFacebook();
+    // ignore: use_build_context_synchronously
+    var userSignedIn = await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => WelcomeUserWidget.withOneValue(user)),
+    );
+
+    setState(() {
+      isUserSignedInFacebook = userSignedIn == null ? true : false;
     });
   }
 }
