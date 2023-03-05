@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_first_app/services/auth_request.dart';
 
 class RecoverPass extends StatefulWidget {
   const RecoverPass({super.key});
@@ -8,6 +9,7 @@ class RecoverPass extends StatefulWidget {
 }
 
 class _RecoverPassState extends State<RecoverPass> {
+  final emailController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -61,6 +63,7 @@ class _RecoverPassState extends State<RecoverPass> {
                           ),
                         ),
                         TextField(
+                          controller: emailController,
                           decoration: InputDecoration(
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(18),
@@ -100,7 +103,7 @@ class _RecoverPassState extends State<RecoverPass> {
                                 ),
                               ),
                               onPressed: () {
-                                Navigator.pushNamed(context, '/reset_pass');
+                                sendPasswordResetEmail(context, emailController.text);
                               },
                             ),
                           ),

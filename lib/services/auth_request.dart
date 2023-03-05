@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:my_first_app/pages/widgets.dart';
 import 'package:my_first_app/screens/welcome_user.dart';
 
 Future<void> registerWithPassword(
@@ -12,48 +13,19 @@ Future<void> registerWithPassword(
         )
         .then((UserCredential userCredential) async => {
               await userCredential.user?.updateDisplayName(fullName),
-              await userCredential.user?.updatePhotoURL('https://i.stack.imgur.com/l60Hf.png'),
-              Navigator.pushReplacementNamed(context, '/login')
+              await userCredential.user
+                  ?.updatePhotoURL('https://i.stack.imgur.com/l60Hf.png'),
+              alertToLogin(context, 'Registrado',
+                  'Se ha registrado correctamente. Inicia sesión para continuar.')
+              // Navigator.pushReplacementNamed(context, '/login')
             });
   } on FirebaseAuthException catch (e) {
     if (e.code == 'weak-password') {
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: const Text('Contraseña débil'),
-            content: const Text(
-                'La contraseña proporcionada es demasiado débil. Debe tener al menos 6 caracteres.'),
-            actions: [
-              TextButton(
-                child: const Text('OK'),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-            ],
-          );
-        },
-      );
+      alert(context, 'Contraseña débil',
+          'La contraseña debe contener caracteres, números y símbolos con un mínimo de 6 caracteres.');
     } else if (e.code == 'email-already-in-use') {
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: const Text('Cuenta existente'),
-            content: const Text(
-                'Ya existe una cuenta registrada para este correo electrónico.'),
-            actions: [
-              TextButton(
-                child: const Text('OK'),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-            ],
-          );
-        },
-      );
+      alert(context, 'Cuenta ya existente',
+          'Ya existe una cuenta registrada para este correo electrónico.');
     }
   } catch (e) {
     // ignore: avoid_print
@@ -73,11 +45,24 @@ Future<void> logInWithPassword(BuildContext context, email, password) async {
                   MaterialPageRoute(
                       builder: (context) => WelcomeUserWidgetEmail(user!)))
             });
+  } on FirebaseAuthException {
+    alert(context, 'Datos no válidos',
+        'Parte de su información no es correcta. Inténtelo de nuevo.');
+  }
+}
+
+Future<void> sendPasswordResetEmail(BuildContext context, email) async {
+  try {
+    await FirebaseAuth.instance.sendPasswordResetEmail(email: email).then(
+        (value) => alertToLogin(context, 'Enlace de recuperación enviado',
+            'Se ha enviado un enlace de recuperación de contraseña a su correo electrónico.'));
   } on FirebaseAuthException catch (e) {
     if (e.code == 'user-not-found') {
-      print('No user found for that email.');
-    } else if (e.code == 'wrong-password') {
-      print('Wrong password provided for that user.');
+      alert(context, 'Cuenta no existente',
+          'No existe una cuenta registrada para este correo electrónico.');
+    } else if (e.code == 'invalid-email') {
+      alert(context, 'Correo no válido',
+          'Ingresa una dirección de correo electrónico válida.');
     }
   }
 }

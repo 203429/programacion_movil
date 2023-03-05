@@ -16,11 +16,11 @@ class WelcomeUserWidgetGoogle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          iconTheme: const IconThemeData(color: Colors.black),
-          elevation: 0,
-        ),
+        // appBar: AppBar(
+        //   backgroundColor: Colors.white,
+        //   iconTheme: const IconThemeData(color: Colors.black),
+        //   elevation: 0,
+        // ),
         body: Container(
             color: Colors.white,
             padding: const EdgeInsets.all(50),
@@ -85,11 +85,11 @@ class WelcomeUserWidgetFacebook extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          iconTheme: const IconThemeData(color: Colors.black),
-          elevation: 0,
-        ),
+        // appBar: AppBar(
+        //   backgroundColor: Colors.white,
+        //   iconTheme: const IconThemeData(color: Colors.black),
+        //   elevation: 0,
+        // ),
         body: Container(
             color: Colors.white,
             padding: const EdgeInsets.all(50),
@@ -154,11 +154,11 @@ class WelcomeUserWidgetEmail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          iconTheme: const IconThemeData(color: Colors.black),
-          elevation: 0,
-        ),
+        // appBar: AppBar(
+        //   backgroundColor: Colors.white,
+        //   iconTheme: const IconThemeData(color: Colors.black),
+        //   elevation: 0,
+        // ),
         body: Container(
             color: Colors.white,
             padding: const EdgeInsets.all(50),
