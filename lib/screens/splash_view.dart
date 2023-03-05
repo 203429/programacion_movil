@@ -255,7 +255,7 @@ class _SplashViewState extends State<SplashView> {
     });
 
     if (isUserSignedInFacebook) {
-      final userData = await FacebookAuth.instance.getUserData();
+      // final userData = await FacebookAuth.instance.getUserData();
       final AuthCredential credential = FacebookAuthProvider.credential(
         accessToken!.token,
       );
@@ -267,7 +267,7 @@ class _SplashViewState extends State<SplashView> {
       final LoginResult loginResult = await FacebookAuth.instance.login();
       if (loginResult.status == LoginStatus.success) {
         final AccessToken accessToken = loginResult.accessToken!;
-        final userData = await FacebookAuth.instance.getUserData();
+        // final userData = await FacebookAuth.instance.getUserData();
 
         final AuthCredential credential = FacebookAuthProvider.credential(
           accessToken.token,
