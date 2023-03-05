@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_first_app/services/auth_request.dart';
 
 class Register extends StatefulWidget {
   const Register({super.key});
@@ -9,6 +10,10 @@ class Register extends StatefulWidget {
 
 class _RegisterState extends State<Register> {
   bool _isChecked = false;
+  final nameController = TextEditingController();
+  final emailController = TextEditingController();
+  final passController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,6 +67,7 @@ class _RegisterState extends State<Register> {
                           ),
                         ),
                         TextField(
+                          controller: nameController,
                           decoration: InputDecoration(
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(18),
@@ -78,6 +84,7 @@ class _RegisterState extends State<Register> {
                           ),
                         ),
                         TextField(
+                          controller: emailController,
                           decoration: InputDecoration(
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(18),
@@ -94,6 +101,7 @@ class _RegisterState extends State<Register> {
                           ),
                         ),
                         TextField(
+                          controller: passController,
                           obscureText: true,
                           decoration: InputDecoration(
                             border: OutlineInputBorder(
@@ -165,7 +173,9 @@ class _RegisterState extends State<Register> {
                                   color: Colors.white,
                                 ),
                               ),
-                              onPressed: () {},
+                              onPressed: () {
+                                registerWithPassword(context, nameController.text, emailController.text, passController.text);
+                              },
                             ),
                           ),
                         ),

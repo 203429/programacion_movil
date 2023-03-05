@@ -81,9 +81,12 @@ class _SplashViewState extends State<SplashView> {
                   onPressed: () {
                     onGoogleSignIn(context);
                   },
-                  label: Text(isUserSignedIn ? 'Continuar con Google' :
-                    'Acceder con Google',
-                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                  label: Text(
+                    isUserSignedIn
+                        ? 'Continuar con Google'
+                        : 'Acceder con Google',
+                    style: const TextStyle(
+                        fontWeight: FontWeight.bold, fontSize: 16),
                   ),
                 ),
               ),
@@ -105,9 +108,12 @@ class _SplashViewState extends State<SplashView> {
                   onPressed: () {
                     signInWithFacebook(context);
                   },
-                  label: Text(isUserSignedInFacebook ? 'Continuar con Facebook' :
-                    'Acceder con Facebook',
-                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                  label: Text(
+                    isUserSignedInFacebook
+                        ? 'Continuar con Facebook'
+                        : 'Acceder con Facebook',
+                    style: const TextStyle(
+                        fontWeight: FontWeight.bold, fontSize: 16),
                   ),
                 ),
               ),
@@ -140,7 +146,15 @@ class _SplashViewState extends State<SplashView> {
                 ),
               ),
               TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  FirebaseAuth.instance.signOut();
+                  FacebookAuth.instance.logOut();
+                  _googleSignIn.signOut();
+                  setState(() {
+                    isUserSignedIn = false;
+                    isUserSignedInFacebook = false;
+                  });
+                },
                 child: const Text(
                   'Entrar como invitado',
                   style: TextStyle(
@@ -220,7 +234,7 @@ class _SplashViewState extends State<SplashView> {
     var userSignedIn = await Navigator.push(
       context,
       MaterialPageRoute(
-          builder: (context) => WelcomeUserWidget(user!, _googleSignIn)),
+          builder: (context) => WelcomeUserWidgetGoogle(user!, _googleSignIn)),
     );
 
     setState(() {
@@ -250,8 +264,7 @@ class _SplashViewState extends State<SplashView> {
 
       user = userCredential.user;
     } else {
-      final LoginResult loginResult = await FacebookAuth.instance
-          .login();
+      final LoginResult loginResult = await FacebookAuth.instance.login();
       if (loginResult.status == LoginStatus.success) {
         final AccessToken accessToken = loginResult.accessToken!;
         final userData = await FacebookAuth.instance.getUserData();
@@ -274,7 +287,7 @@ class _SplashViewState extends State<SplashView> {
     // ignore: use_build_context_synchronously
     var userSignedIn = await Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => WelcomeUserWidget.withOneValue(user)),
+      MaterialPageRoute(builder: (context) => WelcomeUserWidgetFacebook(user!)),
     );
 
     setState(() {

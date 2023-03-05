@@ -1,7 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:my_first_app/services/auth_request.dart';
 
-class Login extends StatelessWidget {
+class Login extends StatefulWidget {
   const Login({super.key});
+
+  @override
+  State<Login> createState() => _LoginState();
+}
+
+class _LoginState extends State<Login> {
+  final emailController = TextEditingController();
+  final passController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -56,6 +65,7 @@ class Login extends StatelessWidget {
                           ),
                         ),
                         TextField(
+                          controller: emailController,
                           decoration: InputDecoration(
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(18),
@@ -72,6 +82,7 @@ class Login extends StatelessWidget {
                           ),
                         ),
                         TextField(
+                          controller: passController,
                           obscureText: true,
                           decoration: InputDecoration(
                             border: OutlineInputBorder(
@@ -121,7 +132,7 @@ class Login extends StatelessWidget {
                                   color: Colors.white,
                                 ),
                               ),
-                              onPressed: () {},
+                              onPressed: () {logInWithPassword(context, emailController.text, passController.text);},
                             ),
                           ),
                         ),
