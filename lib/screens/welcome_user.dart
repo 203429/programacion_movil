@@ -49,7 +49,8 @@ class WelcomeUserWidgetGoogle extends StatelessWidget {
                       onPressed: () {
                         FirebaseAuth.instance.signOut();
                         _googleSignIn.signOut();
-                        Navigator.pop(context, false);
+                        Navigator.pushReplacementNamed(context, '/splash');
+                        // Navigator.pop(context, false);
                       },
                       style: TextButton.styleFrom(
                           shape: RoundedRectangleBorder(
@@ -118,7 +119,8 @@ class WelcomeUserWidgetFacebook extends StatelessWidget {
                       onPressed: () {
                         FirebaseAuth.instance.signOut();
                         FacebookAuth.instance.logOut();
-                        Navigator.pop(context, false);
+                        Navigator.pushReplacementNamed(context, '/splash');
+                        // Navigator.pop(context, false);
                       },
                       style: TextButton.styleFrom(
                           shape: RoundedRectangleBorder(
@@ -186,7 +188,8 @@ class WelcomeUserWidgetEmail extends StatelessWidget {
                     OutlinedButton(
                       onPressed: () {
                         FirebaseAuth.instance.signOut();
-                        Navigator.pop(context, false);
+                        Navigator.pushReplacementNamed(context, '/splash');
+                        // Navigator.pop(context, false);
                       },
                       style: TextButton.styleFrom(
                           shape: RoundedRectangleBorder(
@@ -251,7 +254,8 @@ class WelcomeUserWidgetGuest extends StatelessWidget {
                     OutlinedButton(
                       onPressed: () {
                         FirebaseAuth.instance.signOut();
-                        Navigator.pop(context, false);
+                        Navigator.pushReplacementNamed(context, '/splash');
+                        // Navigator.pop(context, false);
                       },
                       style: TextButton.styleFrom(
                           shape: RoundedRectangleBorder(

@@ -187,22 +187,22 @@ class _SplashViewState extends State<SplashView> {
                   ),
                 ],
               ),
-              TextButton(
-                onPressed: () async {
-                  await FirebaseAuth.instance.signOut();
-                  await FacebookAuth.instance.logOut();
-                  await _googleSignIn.signOut();
-                  setState(() {
-                    isUserSignedIn = false;
-                    isUserSignedInFacebook = false;
-                  });
-                },
-                child: const Text(
-                  'Log out from all providers',
-                  style: TextStyle(
-                      fontSize: 12, color: Color.fromARGB(255, 170, 170, 170)),
-                ),
-              ),
+              // TextButton(
+              //   onPressed: () async {
+              //     await FirebaseAuth.instance.signOut();
+              //     await FacebookAuth.instance.logOut();
+              //     await _googleSignIn.signOut();
+              //     setState(() {
+              //       isUserSignedIn = false;
+              //       isUserSignedInFacebook = false;
+              //     });
+              //   },
+              //   child: const Text(
+              //     'Log out from all providers',
+              //     style: TextStyle(
+              //         fontSize: 12, color: Color.fromARGB(255, 170, 170, 170)),
+              //   ),
+              // ),
             ],
           ),
         ),
