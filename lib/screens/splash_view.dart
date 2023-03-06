@@ -147,13 +147,7 @@ class _SplashViewState extends State<SplashView> {
               ),
               TextButton(
                 onPressed: () {
-                  FirebaseAuth.instance.signOut();
-                  FacebookAuth.instance.logOut();
-                  _googleSignIn.signOut();
-                  setState(() {
-                    isUserSignedIn = false;
-                    isUserSignedInFacebook = false;
-                  });
+                  signInAsGuest(context);
                 },
                 child: const Text(
                   'Entrar como invitado',
@@ -164,7 +158,9 @@ class _SplashViewState extends State<SplashView> {
                 ),
               ),
               TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pushNamed(context, '/login');
+                },
                 child: const Text(
                   'Entrar como vendedor',
                   style: TextStyle(
@@ -190,7 +186,23 @@ class _SplashViewState extends State<SplashView> {
                     ),
                   ),
                 ],
-              )
+              ),
+              TextButton(
+                onPressed: () async {
+                  await FirebaseAuth.instance.signOut();
+                  await FacebookAuth.instance.logOut();
+                  await _googleSignIn.signOut();
+                  setState(() {
+                    isUserSignedIn = false;
+                    isUserSignedInFacebook = false;
+                  });
+                },
+                child: const Text(
+                  'Log out from all providers',
+                  style: TextStyle(
+                      fontSize: 12, color: Color.fromARGB(255, 170, 170, 170)),
+                ),
+              ),
             ],
           ),
         ),
@@ -293,5 +305,25 @@ class _SplashViewState extends State<SplashView> {
     setState(() {
       isUserSignedInFacebook = userSignedIn == null ? true : false;
     });
+  }
+
+  void signInAsGuest(BuildContext context) async {
+    try {
+      final userCreddential = await FirebaseAuth.instance.signInAnonymously();
+      User? user = userCreddential.user!;
+      // ignore: use_build_context_synchronously
+      await Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => WelcomeUserWidgetGuest(user)),
+      );
+    } on FirebaseAuthException catch (e) {
+      switch (e.code) {
+        case "operation-not-allowed":
+          print("Anonymous auth hasn't been enabled for this project.");
+          break;
+        default:
+          print("Unknown error.");
+      }
+    }
   }
 }

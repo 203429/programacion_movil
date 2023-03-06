@@ -210,3 +210,68 @@ class WelcomeUserWidgetEmail extends StatelessWidget {
                 ))));
   }
 }
+
+// ignore: must_be_immutable
+class WelcomeUserWidgetGuest extends StatelessWidget {
+  late User _user;
+
+  WelcomeUserWidgetGuest(User user, {super.key}) {
+    _user = user;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        // appBar: AppBar(
+        //   backgroundColor: Colors.white,
+        //   iconTheme: const IconThemeData(color: Colors.black),
+        //   elevation: 0,
+        // ),
+        body: Container(
+            color: Colors.white,
+            padding: const EdgeInsets.all(50),
+            child: Align(
+                alignment: Alignment.center,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    const SizedBox(height: 20),
+                    const Text('Welcome,', textAlign: TextAlign.center),
+                    Text(_user.displayName == null ? "Invitado" : _user.displayName!,
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 25)),
+                    const SizedBox(height: 20),
+                    const Text('E-mail,', textAlign: TextAlign.center),
+                    Text(_user.email == null ? "No Email" : _user.email!,
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 20)),
+                    const SizedBox(height: 20),
+                    OutlinedButton(
+                      onPressed: () {
+                        FirebaseAuth.instance.signOut();
+                        Navigator.pop(context, false);
+                      },
+                      style: TextButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          backgroundColor: Colors.redAccent),
+                      child: Padding(
+                          padding: const EdgeInsets.all(10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: const <Widget>[
+                              Icon(Icons.exit_to_app, color: Colors.white),
+                              SizedBox(width: 10),
+                              Text('Log out of Guest Account',
+                                  style: TextStyle(color: Colors.white))
+                            ],
+                          )),
+                    ),
+                  ],
+                ))));
+  }
+}
