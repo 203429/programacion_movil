@@ -15,8 +15,11 @@ Future<void> registerWithPassword(
               await userCredential.user?.updateDisplayName(fullName),
               await userCredential.user
                   ?.updatePhotoURL('https://i.stack.imgur.com/l60Hf.png'),
-              alertToLogin(context, 'Registrado',
-                  'Se ha registrado correctamente. Inicia sesión para continuar.')
+              alertToView(
+                  context,
+                  'Registrado',
+                  'Se ha registrado correctamente. Inicia sesión para continuar.',
+                  '/login')
               // Navigator.pushReplacementNamed(context, '/login')
             });
   } on FirebaseAuthException catch (e) {
@@ -54,8 +57,12 @@ Future<void> logInWithPassword(BuildContext context, email, password) async {
 Future<void> sendPasswordResetEmail(BuildContext context, email) async {
   try {
     await FirebaseAuth.instance.sendPasswordResetEmail(email: email).then(
-        (value) => alertToLogin(context, 'Enlace de recuperación enviado',
-            'Se ha enviado un enlace de recuperación de contraseña a su correo electrónico.'));
+        (value) => alertToViewWithParams(
+            context,
+            'Enlace de recuperación enviado',
+            'Se ha enviado un enlace de recuperación de contraseña a su correo electrónico.',
+            '/verify_code',
+            email));
   } on FirebaseAuthException catch (e) {
     if (e.code == 'user-not-found') {
       alert(context, 'Cuenta no existente',
@@ -64,5 +71,43 @@ Future<void> sendPasswordResetEmail(BuildContext context, email) async {
       alert(context, 'Correo no válido',
           'Ingresa una dirección de correo electrónico válida.');
     }
+  }
+}
+
+Future<void> verifyCode(
+    BuildContext context, String enlace, String email) async {
+  List<String> splitCode = enlace.split("&");
+  splitCode = splitCode[1].split("=");
+  String code = splitCode[1];
+  try {
+    await FirebaseAuth.instance.verifyPasswordResetCode(code).then((value) => {
+          if (value == email.toLowerCase())
+            {
+              alertToViewWithParams(
+                  context,
+                  'Código verificado.',
+                  'Se ha verificado correctamente el código del enlace de recuperación. Ahora podrás recuperar tu contraseña.',
+                  '/reset_pass',
+                  code)
+            },
+        });
+  } on FirebaseAuthException catch (e) {
+    if (e.code == 'invalid-action-code') {
+      alert(context, 'Código no válido',
+          'Ingrese el enlace de recuperación correctamente.');
+    }
+  }
+}
+
+Future<void> resetPassword(
+    BuildContext context, String code, String newPassword) async {
+  try {
+    await FirebaseAuth.instance
+        .confirmPasswordReset(code: code, newPassword: newPassword)
+        .then((value) => alertToView(context, 'Contraseña actualizada',
+            'Se ha actualizado correctamente su contraseña', '/login'));
+  } on FirebaseAuthException catch (e) {
+    // ignore: avoid_print
+    print(e.code);
   }
 }

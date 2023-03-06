@@ -3,6 +3,7 @@ import 'package:my_first_app/pages/login.dart';
 import 'package:my_first_app/pages/recover_pass.dart';
 import 'package:my_first_app/pages/register.dart';
 import 'package:my_first_app/pages/reset_password.dart';
+import 'package:my_first_app/pages/verify_code.dart';
 import 'package:my_first_app/screens/body_boarding.dart';
 import 'package:my_first_app/screens/splash_view.dart';
 
@@ -27,6 +28,7 @@ class Home extends StatelessWidget {
         '/register' : ((context) => const Register()),
         '/recover_pass' : ((context) => const RecoverPass()),
         '/reset_pass' : ((context) => const ResetPassword()),
+        '/verify_code' : ((context) => const VerifyCode()),
       },
       home: const BodyBoarding(),
     );

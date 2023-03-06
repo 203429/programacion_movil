@@ -1,26 +1,26 @@
 import 'package:flutter/material.dart';
-import 'package:my_first_app/pages/widgets.dart';
 import 'package:my_first_app/services/auth_request.dart';
 
-class ResetPassword extends StatefulWidget {
-  const ResetPassword({super.key});
+class VerifyCode extends StatefulWidget {
+  const VerifyCode({super.key});
 
   @override
-  State<ResetPassword> createState() => _ResetPasswordState();
+  State<VerifyCode> createState() => _VerifyCodeState();
 }
 
-class _ResetPasswordState extends State<ResetPassword> {
-  final passController = TextEditingController();
-  final confirmPassController = TextEditingController();
+class _VerifyCodeState extends State<VerifyCode> {
+  final linkController = TextEditingController();
+  
   @override
   Widget build(BuildContext context) {
     final dynamic args = ModalRoute.of(context)!.settings.arguments;
+    // final params = args['params'];
     return Scaffold(
       appBar: AppBar(
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const Text("Recuperar contraseña"),
+            const Text("Verificar código"),
             Image.asset(
               "assets/images/mini_logo.png",
               width: 70,
@@ -49,7 +49,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                         const Padding(
                           padding: EdgeInsets.only(bottom: 20),
                           child: Text(
-                            "Por seguridad, tu contraseña debe contener una longitud de entre 8 y 15 caracteres,usar mayúsculas, minúsculas, contener por lo menos un número especial y un carácter especial.",
+                            "Ingresa en el siguiente campo el enlace de recuperación de contraseña que se te fue enviado a su dirección de correo electrónico.",
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 16,
@@ -60,37 +60,19 @@ class _ResetPasswordState extends State<ResetPassword> {
                         const Padding(
                           padding: EdgeInsets.only(top: 30, bottom: 5),
                           child: Text(
-                            "Nueva contraseña",
+                            "Enlace de recuperacion",
                             style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 16),
                           ),
                         ),
                         TextField(
-                          controller: passController,
-                          obscureText: true,
+                          controller: linkController,
+                          // obscureText: true,
                           decoration: InputDecoration(
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(18),
                             ),
-                            hintText: ('Nueva contraseña'),
-                          ),
-                        ),
-                        const Padding(
-                          padding: EdgeInsets.only(top: 30, bottom: 5),
-                          child: Text(
-                            "Confirmar nueva contraseña",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 16),
-                          ),
-                        ),
-                        TextField(
-                          controller: confirmPassController,
-                          obscureText: true,
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(18),
-                            ),
-                            hintText: ('Confirmar nueva contraseña'),
+                            hintText: ('Enlace de recuperacion'),
                           ),
                         ),
                         Padding(
@@ -110,7 +92,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                                 ),
                               ),
                               child: const Text(
-                                "Actualizar contraseña",
+                                "Verificar enlace",
                                 style: TextStyle(
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold,
@@ -118,11 +100,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                                 ),
                               ),
                               onPressed: () {
-                                if (passController.text == confirmPassController.text){
-                                  resetPassword(context, args, passController.text);
-                                } else{
-                                  alert(context, 'Verifica los campos', 'Las contraseñas no son iguales');
-                                }
+                                verifyCode(context, linkController.text, args);
                               },
                             ),
                           ),
